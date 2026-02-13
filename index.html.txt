@@ -1,0 +1,233 @@
+!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panda Lucky 💖</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #ffd6e7, #ffeaf5);
+    overflow: hidden;
+    text-align: center;
+}
+
+/* Floating flowers */
+.flower {
+    position: absolute;
+    font-size: 20px;
+    animation: fall linear infinite;
+}
+
+@keyframes fall {
+    0% { transform: translateY(-10vh); }
+    100% { transform: translateY(110vh); }
+}
+
+/* Intro Section */
+#intro {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+}
+
+.character {
+    position: absolute;
+    top: 50%;
+    font-size: 80px;
+    transform: translateY(-50%);
+    transition: all 2s ease;
+}
+
+#panda {
+    left: -200px;
+}
+
+#teddy {
+    right: -200px;
+}
+
+.hug {
+    left: 50% !important;
+    right: auto !important;
+    transform: translate(-50%, -50%) scale(1.3);
+}
+
+/* Question Section */
+#questionSection {
+    display: none;
+    padding: 40px;
+}
+
+.question-box {
+    margin-top: 50px;
+    font-size: 22px;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+button {
+    padding: 12px 25px;
+    margin: 15px;
+    font-size: 18px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.yesBtn {
+    background-color: #ff5c8d;
+    color: white;
+}
+
+.noBtn {
+    background-color: #cccccc;
+}
+
+/* Shake animation */
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    50% { transform: translateX(10px); }
+    75% { transform: translateX(-10px); }
+    100% { transform: translateX(0); }
+}
+
+.shake {
+    animation: shake 0.5s;
+}
+
+/* Popup */
+#popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    width: 80%;
+    max-width: 600px;
+    box-shadow: 0 0 30px rgba(0,0,0,0.2);
+}
+</style>
+</head>
+
+<body>
+
+<div id="intro">
+    <div id="panda" class="character">🐼</div>
+    <div id="teddy" class="character">🧸</div>
+</div>
+
+<div id="questionSection">
+    <div class="question-box" id="questionText"></div>
+    <div id="buttons"></div>
+</div>
+
+<div id="popup"></div>
+
+<script>
+
+/* Floating flowers */
+for (let i = 0; i < 20; i++) {
+    let flower = document.createElement("div");
+    flower.className = "flower";
+    flower.innerHTML = "🌸";
+    flower.style.left = Math.random() * 100 + "vw";
+    flower.style.animationDuration = (5 + Math.random() * 5) + "s";
+    document.body.appendChild(flower);
+}
+
+/* Intro Animation */
+setTimeout(() => {
+    document.getElementById("panda").style.left = "40%";
+    document.getElementById("teddy").style.right = "40%";
+}, 500);
+
+setTimeout(() => {
+    document.getElementById("panda").classList.add("hug");
+    document.getElementById("teddy").style.display = "none";
+}, 2500);
+
+setTimeout(() => {
+    document.getElementById("intro").style.display = "none";
+    startFirstQuestion();
+}, 4000);
+
+/* Question Flow */
+
+function startFirstQuestion() {
+    document.getElementById("questionSection").style.display = "block";
+    document.getElementById("questionText").innerHTML =
+    "💕 Is this lovely girl the one who holds Panda Lucky’s heart? 🐼🌸";
+    
+    document.getElementById("buttons").innerHTML =
+    `<button class="yesBtn" onclick="startSecondQuestion()">Yes 🐼💖</button>
+     <button class="noBtn" onclick="errorShake()">No 😢</button>`;
+}
+
+function errorShake() {
+    document.body.classList.add("shake");
+    setTimeout(() => {
+        document.body.classList.remove("shake");
+    }, 500);
+}
+
+function startSecondQuestion() {
+    document.getElementById("questionText").innerHTML =
+    "🌸 Panda knows we don’t see this day as something special, as our Valentine’s Day… yet would you like to walk a little further with him and see where it leads? 🐼💖";
+
+    document.getElementById("buttons").innerHTML =
+    `<button class="yesBtn" onclick="startFinalQuestion()">Yes 💖</button>
+     <button class="noBtn" onclick="askWhy()">No 😢</button>`;
+}
+
+function askWhy() {
+    document.getElementById("questionText").innerHTML =
+    "🐼 No…? Can I ask why? 😔";
+    setTimeout(startSecondQuestion, 1500);
+}
+
+let noSize = 18;
+
+function startFinalQuestion() {
+    document.getElementById("questionText").innerHTML =
+    "🐼 I may not celebrate this day loudly… but I’d love to celebrate it with you. Will you be my Valentine? 💖";
+
+    document.getElementById("buttons").innerHTML =
+    `<button class="yesBtn" onclick="showFinalMessage()">Yes 💖</button>
+     <button class="noBtn" id="finalNo" onclick="shrinkNo()">No 😢</button>`;
+}
+
+function shrinkNo() {
+    noSize -= 2;
+    document.getElementById("finalNo").style.fontSize = noSize + "px";
+}
+
+function showFinalMessage() {
+    document.getElementById("popup").style.display = "block";
+    document.getElementById("popup").innerHTML =
+    `<h2>💖 My Heart 💖</h2>
+    <p>
+    People often believe love is something you receive…  
+    but I have always felt it is something you carry quietly within your heart.  
+    <br><br>
+    To me, love is not a transaction.  
+    It is something you give freely, sincerely, without expectation.  
+    <br><br>
+    And that is how I feel about you.  
+    My love will always be showered upon you with gratitude, care, and loyalty.  
+    Not just today, but in the quiet ordinary moments too.
+    </p>`;
+}
+
+</script>
+
+</body>
+</html>
